@@ -1,6 +1,7 @@
 const express = require('express')
 const router = require('./routes/resourceRouter')
 const postsRouter = require('./routes/postsRouter')
+const usersRouter = require('./routes/usersRouter')
 
 require('dotenv').config()
 const { PORT } = process.env
@@ -16,6 +17,7 @@ app.set('view engine', 'ejs')
 app.use(express.urlencoded({ extended: true })) //parses form into js object in req.body
 
 app.use('/posts', postsRouter)
+app.use('/users', usersRouter)
 app.use('/', router)
 
 app.listen(Number(PORT), () => {

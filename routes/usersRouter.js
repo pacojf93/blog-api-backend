@@ -5,7 +5,7 @@ const {requireAdmin} = require('../middleware/auth')
 const router = Router()
 
 router.post('/sign-up', signUp)
-router.get('/log-in', logIn)
+router.post('/log-in', logIn)
 router.get('/log-out', logOut)
 router.get('/:id', requireAdmin, getUserById)
 router.delete('/:id', requireAdmin, deleteUserById)
