@@ -14,4 +14,7 @@ router.delete('/:id', requireAdmin, controller.deletePostById)
 router.get('/:id/comments', controller.getCommentsFromPost)
 router.get('/:id/tags', controller.getTagsFromPost)
 
+router.put('/:id/publish', requireAdmin, controller.publishPost)
+router.put('/:id/hide', requireAdmin, controller.hidePost)
+
 module.exports = router

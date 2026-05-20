@@ -77,11 +77,33 @@ const deleteUserById = async (req, res) => {
     res.json(rest)
 }
 
+const getCommentsFromUser = async (req, res) => {
+    const {comments} = await prisma.user.findUnique({
+        where: { id: Number(req.params.id) },
+        select: {
+            comments: {
+                select: {
+                    id: true,
+                    content: true,
+                    post: {
+                        select: {
+                            id: true,
+                            title: true
+                        }
+                    }
+                }
+            }
+        }
+    })
+    res.json(comments)
+}
+
 module.exports = {
     signUp,
     logIn,
     logOut,
     getUsers, 
     getUserById,
-    deleteUserById
+    deleteUserById,
+    getCommentsFromUser
 }

@@ -90,6 +90,44 @@ const getCommentsFromPost = async (req, res) => {
     res.json(comments)
 }
 
+const publishPost = async (req, res) => {
+    const post = await prisma.post.update({
+        where: {
+            id: Number(req.params.id)
+        },
+        data: {
+            isPublished: true
+        },
+        select:{
+            id: true,
+            title: true,
+            abstract: true,
+            isPublished: true,
+            userId: true
+        }
+    })
+    res.json(post)
+}
+
+const hidePost = async (req, res) => {
+    const post = await prisma.post.update({
+        where: {
+            id: Number(req.params.id)
+        },
+        data: {
+            isPublished: false
+        },
+        select:{
+            id: true,
+            title: true,
+            abstract: true,
+            isPublished: true,
+            userId: true
+        }
+    })
+    res.json(post)
+}
+
 module.exports = {
     getAllPosts,
     getPostById,
@@ -97,5 +135,7 @@ module.exports = {
     updatePostById,
     deletePostById,
     getTagsFromPost,
-    getCommentsFromPost
+    getCommentsFromPost,
+    publishPost,
+    hidePost
 }
