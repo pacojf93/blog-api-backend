@@ -1,7 +1,17 @@
 const prisma = require('../lib/prisma')
 
 const getAllPosts = async (req, res) => {
-    const posts = await prisma.post.findMany({})
+    const posts = await prisma.post.findMany({
+        select: {
+            id: true,
+            created: true,
+            updated: true,
+            title: true,
+            abstract: true,
+            isPublished: true,
+            userId: true
+        }
+    })
     res.json(posts)
 }
 
@@ -44,10 +54,48 @@ const deletePostById = async (req, res) => {
     res.json(deletePost)    //returns deleted post
 }
 
+const getTagsFromPost = async (req, res) => {
+    const {tags} = await prisma.post.findUnique({
+        where: { id: Number(req.params.id) },
+        select: {
+            tags: {
+                select: {
+                    id: true,
+                    name: true
+                }
+            }
+        }
+    })
+    res.json(tags)
+}
+
+const getCommentsFromPost = async (req, res) => {
+    const {comments} = await prisma.post.findUnique({
+        where: { id: Number(req.params.id) },
+        select: {
+            comments: {
+                select: {
+                    id: true,
+                    content: true,
+                    user: {
+                        select: {
+                            id: true,
+                            username: true
+                        }
+                    }
+                }
+            }
+        }
+    })
+    res.json(comments)
+}
+
 module.exports = {
     getAllPosts,
     getPostById,
     createPost,
     updatePostById,
-    deletePostById
+    deletePostById,
+    getTagsFromPost,
+    getCommentsFromPost
 }
