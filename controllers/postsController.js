@@ -1,7 +1,13 @@
 const prisma = require('../lib/prisma')
 
 const getAllPosts = async (req, res) => {
+
+    const filter = req.user && req.user.isAdmnin
+        ? {}
+        : { isPublished: true }
+
     const posts = await prisma.post.findMany({
+        where: filter,
         select: {
             id: true,
             created: true,
