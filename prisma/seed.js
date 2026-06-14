@@ -1,11 +1,17 @@
 const prisma = require('../lib/prisma')
+const bcrypt = require('bcryptjs')
+
+const passwordHashing = async pass => {
+    const hashedPass  = await bcrypt.hash(pass, 10)
+    return hashedPass
+}
 
 const main = async () => {
     // Create users
     const admin = await prisma.user.create({
         data: {
             username: "admin",
-            password: "password",
+            hashedPassword: await passwordHashing('password'),
             isAdmnin: true
         }
     })
@@ -13,7 +19,7 @@ const main = async () => {
     const user1 = await prisma.user.create({
         data: {
             username: "user1",
-            password: "pass1",
+            hashedPassword: await passwordHashing('pass1'),
             isAdmnin: false
         }
     })
@@ -21,7 +27,7 @@ const main = async () => {
     const user2 = await prisma.user.create({
         data: {
             username: "user2",
-            password: "pass2",
+            hashedPassword: await passwordHashing('pass2'),
             isAdmnin: false
         }
     })

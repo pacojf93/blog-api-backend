@@ -1,19 +1,20 @@
 const { Router } = require('express')
 const controller = require('../controllers/postsController')
+const {requireAdmin, requireUser, getLoggedUser} = require('../middleware/auth')
 
 const router = Router()
 
-router.get('/', controller.getAllPosts)
+router.get('/', getLoggedUser, controller.getAllPosts)
 router.get('/:id', controller.getPostById)
-router.post('/', controller.createPost)
-router.put('/:id', controller.updatePostById)
-router.delete('/:id', controller.deletePostById)
+router.post('/', requireAdmin, controller.createPost)
+router.put('/:id', requireAdmin, controller.updatePostById)
+router.delete('/:id', requireAdmin, controller.deletePostById)
 
 //comment routes
-router.get('/:id/comments', () => { })
-router.get('/:id/comments/:id', () => { })
-router.post('/:id/comments', () => { })
-router.put('/:id/comments/:id', () => { })
-router.delete('/:id/comments/:id', () => { })
+router.get('/:id/comments', controller.getCommentsFromPost)
+router.get('/:id/tags', controller.getTagsFromPost)
+
+router.put('/:id/publish', requireAdmin, controller.publishPost)
+router.put('/:id/hide', requireAdmin, controller.hidePost)
 
 module.exports = router
