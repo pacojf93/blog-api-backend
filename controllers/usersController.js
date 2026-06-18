@@ -47,7 +47,7 @@ const logIn = async (req, res) => {
         {expiresIn: 60*60}
     )
 
-    res.status(200).send({token, username: user.username})
+    res.status(200).send({token, username: user.username, id: user.id})
 
 }
 
