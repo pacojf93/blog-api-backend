@@ -22,6 +22,15 @@ const getCommentsFromUser = async (req, res) => {
 const getCommentById = async (req, res) => {
   const comment = await prisma.comment.findUnique({
     where: { id: Number(req.params.id) },
+    select: {
+      id: true,
+      content: true,
+      user: {
+        select: {
+          username: true
+        }
+      }
+    }
   });
   res.json(comment);
 };
