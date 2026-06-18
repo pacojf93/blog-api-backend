@@ -10,9 +10,11 @@ router.post('/', requireAdmin, controller.createPost)
 router.put('/:id', requireAdmin, controller.updatePostById)
 router.delete('/:id', requireAdmin, controller.deletePostById)
 
-//comment routes
 router.get('/:id/comments', controller.getCommentsFromPost)
+
 router.get('/:id/tags', controller.getTagsFromPost)
+router.put('/:id/tag', requireAdmin, controller.addTag)
+router.put('/:id/untag', requireAdmin, controller.removeTag)
 
 router.put('/:id/publish', requireAdmin, controller.publishPost)
 router.put('/:id/hide', requireAdmin, controller.hidePost)

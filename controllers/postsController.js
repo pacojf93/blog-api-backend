@@ -134,6 +134,54 @@ const hidePost = async (req, res) => {
     res.json(post)
 }
 
+const addTag = async (req, res) => {
+    const post = await prisma.post.update({
+        where: {
+            id: Number(req.params.id)
+        },
+        data: {
+            tags: {
+                connect: {
+                    id: Number(req.body.tag)
+                }
+            }
+        },
+        select: {
+            tags: {
+                select: {
+                    id: true,
+                    name: true
+                }
+            }
+        }
+    })
+    res.json(post)
+}
+
+const removeTag = async (req, res) => {
+    const post = await prisma.post.update({
+        where: {
+            id: Number(req.params.id)
+        },
+        data: {
+            tags: {
+                disconnect: {
+                    id: Number(req.body.tag)
+                }
+            }
+        },
+        select: {
+            tags: {
+                select: {
+                    id: true,
+                    name: true
+                }
+            }
+        }
+    })
+    res.json(post)
+}
+
 module.exports = {
     getAllPosts,
     getPostById,
@@ -143,5 +191,7 @@ module.exports = {
     getTagsFromPost,
     getCommentsFromPost,
     publishPost,
-    hidePost
+    hidePost,
+    addTag,
+    removeTag
 }
