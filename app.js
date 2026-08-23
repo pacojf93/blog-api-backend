@@ -4,6 +4,7 @@ const postsRouter = require('./routes/postsRouter')
 const usersRouter = require('./routes/usersRouter')
 const commentsRouter = require('./routes/commentsRouter')
 const tagsRouter = require('./routes/tagsRouter')
+const cors = require('cors')
 
 require('dotenv').config()
 const { PORT } = process.env
@@ -12,6 +13,7 @@ const path = require('node:path')
 
 
 const app = express()
+app.use(cors())
 
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
